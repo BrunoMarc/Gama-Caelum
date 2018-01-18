@@ -1,16 +1,19 @@
 (function () {
-    const btnRemove = document.querySelector('.opcoesDoCartao-remove')
+    const btns = document.querySelectorAll('.opcoesDoCartao-remove')
 
-btnRemove.addEventListener('click', function() {
-    const cartao = this.parentNode.parentNode
-    cartao.classList.add('cartao--somePeixinho')
+    for(let btn of btns) {
+            btn.addEventListener('click', function() {
+            
+            const cartao =  btn.parentNode.parentNode
+            cartao.classList.add('cartao--somePeixinho')
 
 
-    cartao.addEventListener('transitionend', function() {
-        cartao.remove()
-    })
+            cartao.addEventListener('transitionend', function() {
+                cartao.remove()
+            })
 
-})
+        })
+    }
 
 
 

@@ -76,3 +76,15 @@
     }
 
 }
+
+.opcoesDoCartao-opcao	{			
+	pointer-events:	none;						
+	opacity:	0;							
+	transition:	opacity	.3s;		
+	}
+
+
+.cartao:hover	.opcoesDoCartao-opcao,
+.cartao--focado	.opcoesDoCartao-opcao	{
+	opacity:	1;	
+	pointer-events:	auto;				}
