@@ -1,31 +1,31 @@
 ;( function() {
 
 
-    let contador = document.querySelectorAll('.cartao').length
+    let contador = $('.cartao').length
 
-    const form = document.querySelector('.formNovoCartao')
-    form.classList.remove('no-js')
+    const form = $('.formNovoCartao')
+    form.removeClass('no-js')
 
-    form.addEventListener('submit', function(event) {
+    form.on('submit', function(event) {
         event.preventDefault()
-        const $campoConteudo =  document.querySelector('.formNovoCartao-conteudo')
-        const conteudo = $campoConteudo.value.trim()
+        const $campoConteudo = form.find('.formNovoCartao-conteudo')
+        const conteudo = $campoConteudo.val().trim()
 
 
         if(!conteudo) {
-            const $msgErro = document.createElement('erro')
-            $msgErro.innerHTML = `<div class="formNovoCartao-msg">Formulário inválido. Não digite vários nada!!!!</div>`
+            const $msgErro =  $(`<div class="formNovoCartao-msg">Formulário inválido.
+             Não digite vários nada!!!!</div>`)
             
-            document.querySelector('.formNovoCartao-salvar').insertAdjacentElement('beforebegin', $msgErro);
-            $msgErro.addEventListener('animationend', function(event) {
+            $('.formNovoCartao-salvar').prepend($msgErro);
+            $msgErro.on('animationend', function(event) {
                 $msgErro.remove()
             })
 
         } else {
             contador++
 
-            const $tpl = document.createElement('tpl')
-            $tpl.innerHTML = `<article id="cartao_${contador}" class="cartao ">
+            
+            const $novoCartao = $(`<article id="cartao_${contador}" class="cartao ">
             <div class="opcoesDoCartao">
               <!-- this em eventos de elementos = elemento -->
               <!-- Exercicio 8 da apostila  do **PDF** -->
@@ -54,14 +54,55 @@
               </label>
             </div>
             <p class="cartao-conteudo" contenteditable tabindex="0">${conteudo}</p>
-          </article>`
+          </article>`)
 
-          document.querySelector(`#cartao_1`).insertAdjacentElement('beforebegin', $tpl)
+          $('.mural').prepend($novoCartao)
+
+          $novoCartao.on('focusin', function() {
+            $novoCartao.addClass('cartao--focado')
+        })
+        
+        $novoCartao.on('focusout', function() {
+            $novoCartao.removeClass('cartao--focado')
+        })
+
+        $novoCartao.on('change', '.opcoesDoCartao-radioTipo', function(event) {
+            const $elementoAtual = $(event.target)
+
+            
+                const novaCor = $elementoAtual.val()
+                $novoCartao.css('background', novaCor)
+            
+        })
+
+        $novoCartao.on('keydown', '.opcoesDoCartao-tipo', function(event) {
+            const $elementoAtual = $(event.target)
+
+            if(event.key === 'Enter' || event.key === ' ') {
+                $elementoAtual.click()
+            }
+        })
+
+      
+
+        $novoCartao.on('click', '.opcoesDoCartao-remove', function(event) {
+                
+            const $elementoAtual = $(event.target)
+
+            
+                $novoCartao.addClass('cartao--somePeixinho')
+                $novoCartao.on('transitionend', function(event) {
+                    $novoCartao.remove()
+                })
+            
+            
+            })
+        
 
 
         }
 
-        $campoConteudo.value = ''
+        $campoConteudo.val('')
     })
 
     
