@@ -1,31 +1,12 @@
-;( function() {
-
+;(function($) {
+    
 
     let contador = $('.cartao').length
 
-    const form = $('.formNovoCartao')
-    form.removeClass('no-js')
+    function criarCartao(conteudo, cor = '') {
+        contador++
 
-    form.on('submit', function(event) {
-        event.preventDefault()
-        const $campoConteudo = form.find('.formNovoCartao-conteudo')
-        const conteudo = $campoConteudo.val().trim()
-
-
-        if(!conteudo) {
-            const $msgErro =  $(`<div class="formNovoCartao-msg">Formulário inválido.
-             Não digite vários nada!!!!</div>`)
-            
-            $('.formNovoCartao-salvar').prepend($msgErro);
-            $msgErro.on('animationend', function(event) {
-                $msgErro.remove()
-            })
-
-        } else {
-            contador++
-
-            
-            const $novoCartao = $(`<article id="cartao_${contador}" class="cartao ">
+            const $novoCartao = $(`<article id="cartao_${contador}" style='background: ${cor}' class="cartao ">
             <div class="opcoesDoCartao">
               <!-- this em eventos de elementos = elemento -->
               <!-- Exercicio 8 da apostila  do **PDF** -->
@@ -33,7 +14,7 @@
                 <svg><use xlink:href="#iconeRemover"></use></svg>
               </button>
     
-              <input type="radio" name="corDoCartao${contador}" value="#EBEF40" id="corPadrão-cartao${contador}" class="opcoesDoCartao-radioTipo" checked>
+              <input type="radio" name="corDoCartao${contador}" value="#EBEF40" id="corPadrão-cartao${contador}" class="opcoesDoCartao-radioTipo" ${cor ? '' : 'checked'}>
               <label for="corPadrão-cartao${contador}" class="opcoesDoCartao-tipo opcoesDoCartao-opcao" style="color: #EBEF40;" tabindex="0">
                 Padrão
               </label>
@@ -97,13 +78,8 @@
             
             
             })
-        
 
+    }
 
-        }
-
-        $campoConteudo.val('')
-    })
-
-    
-})()
+    window.criarCartao = criarCartao
+})(jQuery)
